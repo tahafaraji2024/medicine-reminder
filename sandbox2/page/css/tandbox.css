@@ -1,0 +1,118 @@
+.card-text {
+    text-align: center;
+    font-size: x-large;
+}
+
+.mad {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    top: 50%;
+    left: 200px;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.btq {
+    width: 530px;
+    border-radius: 9px;
+    position: absolute;
+    top: 50%;
+    left: 700px;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+.d-grid {
+    align-items: center;
+}
+
+.btn {
+    font-size: 25px; /* برگشت به سایز اولیه */
+    width: 80%; /* عرض دکمه‌ها کمتر از 100% توی دسکتاپ */
+    margin-left: auto; /* وسط‌چین افقی */
+    margin-right: auto;
+}
+
+.qwer {
+    background-position: center;
+    object-fit: cover;
+    background-size: cover;
+    background-image: url(img/ql1.jpg);
+    filter: blur(5px);
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.card-body {
+    background-color: floralwhite;
+    border-radius: 70px;
+    background-size: cover;
+}
+
+/* رسپانسیو کردن */
+@media only screen and (max-width: 1200px) {
+    .mad {
+        left: 50%;
+        transform: translate(-50%, -80%);
+        width: 80%;
+        height: auto;
+    }
+    .btq {
+        left: 50%;
+        transform: translate(-50%, 0);
+        top: calc(50% + 100px);
+        width: 50%; /* عرض کمتر از 80% */
+    }
+    .btn {
+        font-size: 20px; /* یه کم کوچیکتر از دسکتاپ */
+        width: 90%; /* عرض کمتر از 100% */
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .mad {
+        position: absolute; /* وسط صفحه بمونه */
+        top: 30%; /* بالاتر از وسط */
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%; /* عرض کمتر از 100% */
+        margin: 0 auto;
+    }
+    .btq {
+        position: absolute;
+        top: 70%; /* زیر کادر و وسط صفحه */
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 70%; /* عرض کمتر از 100% */
+        margin: 0 auto;
+    }
+    .card-text {
+        font-size: large;
+    }
+    .btn {
+        font-size: 18px; /* کوچیکتر برای موبایل */
+        width: 85%; /* عرض کمتر از 100% */
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .mad {
+        width: 90%;
+    }
+    .btq {
+        width: 80%;
+    }
+    .card-text {
+        font-size: medium;
+    }
+    .btn {
+        font-size: 16px;
+    }
+}
+
