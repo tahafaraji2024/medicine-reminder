@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>داشبورد یادآوری دارو</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+  <div class="dashboard-box mx-auto mt-5">
+    <div dir="auto" class="daroo-time-section mx-auto">
+      <div id="notification-message"></div>
+    </div>
+
+    <div dir="auto" class="container mt-5">
+      <h1>داشبورد یادآوری دارو</h1>
+      <form id="medicine-form">
+        <div class="mb-3">
+          <label for="medicine-name" class="form-label">نام دارو:</label>
+          <input type="text" class="form-control" id="medicine-name" required>
+        </div>
+        <div class="mb-3">
+          <label for="daroo-time" class="form-label">زمان مصرف:</label>
+          <input type="time" class="form-control" id="daroo-time" required>
+        </div>
+        <button class="btn btn-info m-2" id="set-notification">ثبت زمان دارو</button>
+      </form>
+      <div id="dashboard" class="mt-5">
+        <h2>لیست زمان‌های دارو</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>نام دارو</th>
+              <th>زمان مصرف</th>
+              <th>زمان باقی‌مانده</th>
+              <th>حذف</th>
+            </tr>
+          </thead>
+          <tbody id="medicine-list"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const darooTimeInput = document.getElementById('daroo-time');
+      const setNotificationButton = document.getElementById('set-notification');
+      const notificationMessageDiv = document.getElementById('notification-message');
+
+      let notificationPermission = Notification.permission;
+
+      if (notificationPermission === 'default' || notificationPermission === 'denied') {
+        Notification.requestPermission().then(permission => {
+          notificationPermission = permission;
+        });
+      }
+
+      setNotificationButton.addEventListener('click', function() {
+        const selectedTime = darooTimeInput.value;
+        const [hours, minutes] = selectedTime.split(':');
+        const now = new Date();
+        const notificationTime = new Date(now);
+
+        notificationTime.setHours(parseInt(hours, 10));
+        notificationTime.setMinutes(parseInt(minutes, 10));
+        notificationTime.setSeconds(0);
+        notificationTime.setMilliseconds(0);
+
+        if (notificationTime <= now) {
+          notificationTime.setDate(notificationTime.getDate() + 1);
+        }
+
+        const timeDiff = notificationTime - now;
+
+        if (timeDiff > 0) {
+          setTimeout(function() {
+            console.log('تابع setTimeout اجرا شد!');
+            showNotification('زمان داروی شما فرا رسیده است!');
+          }, timeDiff);
+        }
+      });
+
+      function showNotification(message) {
+        if ('Notification' in window) {
+          if (notificationPermission == 'granted') {
+            alert("زمان مصرف داروی شما سر رسید!");
+          } else {
+            alert('دسترسی به نوتیفیکیشن‌ها داده نشده است.');
+          }
+        } else {
+          alert(message);
+        }
+      }
+    });
+
+    const medicineForm = document.getElementById('medicine-form');
+    const medicineList = document.getElementById('medicine-list');
+
+    medicineForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const name = document.getElementById('medicine-name').value;
+      const time = document.getElementById('daroo-time').value;
+      const medicines = JSON.parse(localStorage.getItem('medicines')) || [];
+      medicines.push({ name, time });
+      localStorage.setItem('medicines', JSON.stringify(medicines));
+      displayMedicines();
+      medicineForm.reset();
+    });
+
+    function displayMedicines() {
+      const medicines = JSON.parse(localStorage.getItem('medicines')) || [];
+      medicineList.innerHTML = '';
+      medicines.forEach((medicine, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${medicine.name}</td>
+          <td>${medicine.time}</td>
+          <td id="remaining-${index}"></td>
+          <td><button class="btn btn-danger btn-sm" onclick="deleteMedicine(${index})">حذف</button></td>
+        `;
+        medicineList.appendChild(row);
+        updateRemainingTime(index, medicine.time);
+      });
+    }
+
+    function updateRemainingTime(index, time) {
+      const remainingTimeElement = document.getElementById(`remaining-${index}`);
+      setInterval(() => {
+        const now = new Date();
+        const [hours, minutes] = time.split(':');
+        const medicineTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+        if (medicineTime > now) {
+          const diff = medicineTime - now;
+          const hoursRemaining = Math.floor(diff / (1000 * 60 * 60));
+          const minutesRemaining = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          remainingTimeElement.textContent = `${hoursRemaining} ساعت و ${minutesRemaining} دقیقه`;
+        } else {
+          remainingTimeElement.textContent = 'زمان گذشته است';
+        }
+      }, 1000);
+    }
+
+    function deleteMedicine(index) {
+      const medicines = JSON.parse(localStorage.getItem('medicines')) || [];
+      medicines.splice(index, 1);
+      localStorage.setItem('medicines', JSON.stringify(medicines));
+      displayMedicines();
+    }
+
+    displayMedicines();
+
+    function removePastMedicines() {
+      let medicines = JSON.parse(localStorage.getItem('medicines')) || [];
+      const now = new Date();
+      medicines = medicines.filter(medicine => {
+        const [hours, minutes] = medicine.time.split(':');
+        const medicineTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+        return medicineTime > now;
+      });
+      localStorage.setItem('medicines', JSON.stringify(medicines));
+      displayMedicines();
+    }
+
+    setInterval(removePastMedicines, 60000);
+  </script>
+</body>
+</html>

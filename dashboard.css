@@ -1,0 +1,68 @@
+/* dashboard.css */
+.dashboard-box {
+  transform: translate(0%, 6%);
+  width: 850px; /* دقیقاً همون اندازه اصلی */
+  height: 650px; /* دقیقاً همون اندازه اصلی */
+  background-color: rgb(243, 243, 243);
+  border-radius: 10px;
+  margin: auto;
+  margin-top: 70px; /* باکس 50px از بالا فاصله می‌گیره توی دسکتاپ */
+  padding: 20px;
+}
+
+.daroo-time-section {
+  width: 50%; /* دقیقاً همون اندازه اصلی */
+  margin: auto;
+}
+
+/* رسپانسیو کردن */
+@media only screen and (max-width: 992px) {
+  .dashboard-box {
+    transform: translate(0%, 25%);
+    width: 90%;
+    height: auto; /* ارتفاع خودکار برای جا شدن محتوا */
+    padding: 15px;
+    margin-top: 40px; /* توی تبلت یه کم کمتر */
+  }
+  .daroo-time-section {
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .dashboard-box {
+    transform: translate(0%, 25%);
+
+    width: 95%;
+    padding: 10px;
+    margin-top: 30px; /* توی موبایل کوچیکتر */
+  }
+  .daroo-time-section {
+    width: 80%;
+  }
+  h1 {
+    font-size: 1.5rem; /* عنوان کوچیکتر */
+  }
+  h2 {
+    font-size: 1.25rem;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .dashboard-box {
+    transform: translate(0%, 10%);
+    height: 90%;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px; /* توی موبایل حتی کمتر */
+  }
+  .daroo-time-section {
+    width: 90%;
+  }
+  .btn {
+    width: 100%; /* دکمه‌ها کل عرض رو بگیرن */
+  }
+  .table {
+    font-size: 0.9rem; /* جدول کوچیکتر بشه */
+  }
+}

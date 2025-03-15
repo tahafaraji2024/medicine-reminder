@@ -1,0 +1,66 @@
+@font-face {
+    font-family: sh;
+    src: url(font/Lalezar-Regular[@fontraigannn].ttf);
+}
+
+#h1 {
+    transform: translate(0%, 40%);
+
+    font-family: sh;
+    color: rgb(11, 238, 231);
+    font-size: 50px;
+    text-align: center;
+}
+
+body {
+
+    background-image: url(img/w1.jpg);
+    background-size: cover; /* عوض کردم به cover که کل صفحه رو پر کنه */
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 100vh; /* مطمئن می‌شه بک‌گراند کل ارتفاع رو بگیره */
+}
+
+.ss {
+    transform: translate(0%, 20%);
+
+    margin-left: 219px; /* توی دسکتاپ نگه می‌دارم */
+    font-family: sh;
+}
+
+/* رسپانسیو کردن */
+@media only screen and (max-width: 992px) {
+    #h1 {
+        font-size: 40px; /* توی تبلت کمی کوچیکتر */
+    }
+    .ss {
+        transform: translate(0%, 10%);
+
+        margin-left: 0; /* توی سایزهای کوچیکتر margin حذف بشه */
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    #h1 {
+        transform: translate(0%, 50%);
+
+        font-size: 40px;
+    }
+    .ss {
+        transform: translate(0%, 10%);
+
+        padding: 15px;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    #h1 {
+        font-size: 45px; /* توی موبایل کوچیکتر */
+    }
+    .ss {
+        padding: 10px;
+    }
+    .btn {
+        width: 100%; /* دکمه کل عرض رو بگیره */
+    }
+}

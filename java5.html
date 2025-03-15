@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ثبت نام</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/sd.css">
+</head>
+<body>
+    <br>
+    <h1 class="text-success text-center font-weight-bold" style="font-size: 40px; font-family: sh;">
+        ورود
+    </h1>
+    <h4 style="font-family: sh;" class="text-primary text-center font-weight-bold">sign up</h4>
+    <div class="sh container">
+        <br>
+        <div dir="rtl" class="col-12 col-md-8 mx-auto">
+            <form action="#" id="form" onsubmit="return validation()" class="bg-light p-3">
+                <div class="form-group mb-1">
+                    <label for="name" class="font-weight-regular">نام</label>
+                    <input type="text" name="name" id="name" class="form-control" autocomplete="off" />
+                    <span id="Name" class="text-danger font-weight-regular"></span>
+                </div>
+
+                <div class="form-group mb-1">
+                    <label for="emails" class="font-weight-regular">ایمیل</label>
+                    <input type="email" name="email" id="emails" class="form-control" autocomplete="off" />
+                    <span id="emailids" class="text-danger font-weight-regular"></span>
+                </div>
+
+                <div class="form-group mb-1">
+                    <label for="user" class="font-weight-regular">نام کاربری</label>
+                    <input type="text" name="user" class="form-control" id="user" autocomplete="off" />
+                    <span id="username" class="text-danger font-weight-regular"></span>
+                </div>
+
+                <div class="form-group mb-1">
+                    <label for="pass" class="font-weight-regular">رمز</label>
+                    <input type="password" name="pass" id="pass" class="form-control" autocomplete="off" />
+                    <span id="passwords" class="text-danger font-weight-regular"></span>
+                </div>
+
+                <div class="form-group mb-1">
+                    <label for="conpass" class="form-label">تکرار رمز</label>
+                    <input type="password" name="conpass" id="conpass" class="form-control" autocomplete="off" />
+                    <span id="confirmpass" class="text-danger font-weight-regular"></span>
+                </div>
+
+                <div class="form-group mb-1">
+                    <label for="mobileNumber" class="form-label">شماره تلفن</label>
+                    <input type="tel" name="mobile" id="mobileNumber" class="form-control mb-3" autocomplete="off" maxlength="11" />
+                    <span id="mobileno" class="text-danger font-weight-regular"></span>
+                </div>
+
+                <div dir="ltr" class="text-left">
+                    <input onclick="validation()" type="submit" name="submit" value="ارسال" class="btn btn-primary" autocomplete="off" />
+                    <input type="reset" name="reset" value="پاک کردن" class="btn btn-secondary" autocomplete="off" />
+                </div>
+            </form>
+            <br><br>
+        </div>
+    </div>
+
+    <script>
+        function validation() {
+            var name = document.getElementById("name").value;
+            var user = document.getElementById("user").value;
+            var pass = document.getElementById("pass").value;
+            var confirmpass = document.getElementById("conpass").value;
+            var mobileNumber = document.getElementById("mobileNumber").value;
+            var emails = document.getElementById("emails").value;
+
+            document.getElementById("Name").innerHTML = '';
+            document.getElementById("emailids").innerHTML = '';
+            document.getElementById("username").innerHTML = '';
+            document.getElementById("passwords").innerHTML = '';
+            document.getElementById("confirmpass").innerHTML = '';
+            document.getElementById("mobileno").innerHTML = '';
+
+            if (name == "") {
+                document.getElementById("Name").innerHTML = "** لطفا نام خود را وارد کنید **";
+                return false;
+            }
+            if (emails == "") {
+                document.getElementById("emailids").innerHTML = "** لطفا ایمیل خود را وارد کنید **";
+                return false;
+            }
+            if (emails.indexOf("@") <= 0) {
+                document.getElementById("emailids").innerHTML = "** لطفا ایمیل خود را به درستی وارد کنید **";
+                return false;
+            }
+            if (emails.charAt(emails.length - 4) != "." && emails.charAt(emails.length - 3) != ".") {
+                document.getElementById("emailids").innerHTML = "** ایمیل خود را به درستی وارد کنید **";
+                return false;
+            }
+            if (user == "") {
+                document.getElementById("username").innerHTML = "** لطفا نام کاربری خود را وارد کنید **";
+                return false;
+            }
+            if (user.length <= 3 || user.length >= 20) {
+                document.getElementById("username").innerHTML = "** نام کاربری حداقل 5 حرف و حداکثر 20 حرف باشد! **";
+                return false;
+            }
+            if (!isNaN(user)) {
+                document.getElementById("username").innerHTML = "** با حروف و عدد وارد کنید **";
+                return false;
+            }
+            if (pass == "") {
+                document.getElementById("passwords").innerHTML = "** پسورد خود را وارد کنید **";
+                return false;
+            }
+            if (pass.length < 5 || pass.length > 20) {
+                document.getElementById("passwords").innerHTML = "** پسورد حداقل 5 و حداکثر 20 باشد **";
+                return false;
+            }
+            if (confirmpass == "") {
+                document.getElementById("confirmpass").innerHTML = "** پسورد را مجددا وارد کنید **";
+                return false;
+            }
+            if (pass !== confirmpass) {
+                document.getElementById("confirmpass").innerHTML = "** پسورد مشابه نیست **";
+                return false;
+            }
+            if (mobileNumber == "") {
+                document.getElementById("mobileno").innerHTML = "** لطفا شماره همراه خود را وارد کنید **";
+                return false;
+            }
+            if (isNaN(mobileNumber)) {
+                document.getElementById("mobileno").innerHTML = "** لطفا از صفحه کلید عدد استفاده کنید **";
+                return false;
+            }
+            if (mobileNumber.length != 11) {
+                document.getElementById("mobileno").innerHTML = "** شماره موبایل باید 11 عدد باشد **";
+                return false;
+            }
+            if (mobileNumber.substring(0, 2) != "09") {
+                document.getElementById("mobileno").innerHTML = "** لطفا شماره موبایل خود را درست وارد کنید! **";
+                return false;
+            }
+
+            window.location.href = "sandbox2.html";
+            return false;
+        }
+    </script>
+</body>
+</html>
